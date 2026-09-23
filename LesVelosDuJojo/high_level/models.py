@@ -12,6 +12,9 @@ class Operation(models.Model):
     heures_de_travail = models.IntegerField()
     consommation_electrique = models.IntegerField()
 
+    def __str__(self):
+        return "self"
+
 
 class Produit(models.Model):
     nom = models.CharField(max_length=100)
@@ -20,15 +23,24 @@ class Produit(models.Model):
     nombre_par_palette = models.IntegerField()
     operations = models.ForeignKey(Operation, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return "self"
+
 
 class QuantiteProduit(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.PROTECT)
     nombre = models.IntegerField()
 
+    def __str__(self):
+        return "self"
+
 
 class Stock(models.Model):
     quantite_produits = models.ManyToManyField(QuantiteProduit)
     palettes_max = models.IntegerField()
+
+    def __str__(self):
+        return "self"
 
 
 class PointDeVente(models.Model):
@@ -37,12 +49,18 @@ class PointDeVente(models.Model):
     heures_de_travail = models.IntegerField()
     stock = models.ForeignKey(Stock, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return "self"
+
 
 class Facture(models.Model):
     quantite_produits = models.ManyToManyField(QuantiteProduit)
     reduction = models.IntegerField()
     point_de_vente = models.ForeignKey(PointDeVente, on_delete=models.PROTECT)
     client = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "self"
 
 
 class Pays(models.Model):
@@ -51,12 +69,18 @@ class Pays(models.Model):
     tarif_electrique = models.IntegerField()
     salaire_minimum = models.IntegerField()
 
+    def __str__(self):
+        return "self"
+
 
 class Ville(models.Model):
     nom = models.CharField(max_length=100)
     taxe_immobiliere = models.IntegerField()
     prix_m2 = models.IntegerField()
     pays = models.ForeignKey(Pays, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "self"
 
 
 class Machine(models.Model):
@@ -66,10 +90,16 @@ class Machine(models.Model):
     cout_maintenance = models.IntegerField()
     superficie = models.IntegerField()
 
+    def __str__(self):
+        return "self"
+
 
 class QuantiteMachine(models.Model):
     machine = models.ForeignKey(Machine, on_delete=models.PROTECT)
     nombre = models.IntegerField()
+
+    def __str__(self):
+        return "self"
 
 
 class Lieu(models.Model):
@@ -79,6 +109,9 @@ class Lieu(models.Model):
     quantite_machine = models.ManyToManyField(QuantiteMachine)
     consomation_electrique = models.IntegerField()
 
+    def __str__(self):
+        return "self"
+
 
 class Transport(models.Model):
     nombre_palettes = models.IntegerField()
@@ -87,12 +120,21 @@ class Transport(models.Model):
     depart = models.ForeignKey(Lieu, on_delete=models.PROTECT, related_name="depart+")
     arrivee = models.ForeignKey(Lieu, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return "self"
+
 
 class PrixProduit(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.PROTECT)
     prix_achat = models.IntegerField()
 
+    def __str__(self):
+        return "self"
+
 
 class Fournisseur(models.Model):
     nom = models.CharField(max_length=100)
     prix_produits = models.ManyToManyField(PrixProduit)
+
+    def __str__(self):
+        return "self"
