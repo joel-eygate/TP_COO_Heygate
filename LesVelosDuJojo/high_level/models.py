@@ -5,7 +5,9 @@ from django.db import models
 
 class Operation(models.Model):
     nom = models.CharField(max_length=100)
-    operation_suivante = models.ForeignKey("self", blank=True, on_delete=models.PROTECT)
+    operation_suivante = models.ForeignKey(
+        "self", blank=True, null=True, on_delete=models.PROTECT
+    )
     cout = models.IntegerField()
     machine = models.ForeignKey("Machine", on_delete=models.PROTECT)
     quantite_produits = models.ManyToManyField("QuantiteProduit")
@@ -21,7 +23,9 @@ class Produit(models.Model):
     prix_de_vente = models.IntegerField()
     duree_de_vie = models.IntegerField()
     nombre_par_palette = models.IntegerField()
-    operations = models.ForeignKey(Operation, blank=True, on_delete=models.PROTECT)
+    operations = models.ForeignKey(
+        Operation, blank=True, null=True, on_delete=models.PROTECT
+    )
 
     def __str__(self):
         return self.nom
@@ -97,7 +101,7 @@ class Lieu(models.Model):
     nom = models.CharField(max_length=100)
     ville = models.ForeignKey(Ville, on_delete=models.PROTECT)
     superficie = models.IntegerField()
-    quantite_machine = models.ManyToManyField(QuantiteMachine)
+    quantite_machine = models.ManyToManyField(QuantiteMachine, blank=True, null=True)
     consomation_electrique = models.IntegerField()
 
     def __str__(self):
@@ -105,11 +109,15 @@ class Lieu(models.Model):
 
 
 class Transport(models.Model):
+    nom = models.CharField(max_length=100, default="transport")
     nombre_palettes = models.IntegerField()
     cout = models.IntegerField()
     delai = models.IntegerField()
     depart = models.ForeignKey(Lieu, on_delete=models.PROTECT, related_name="depart+")
     arrivee = models.ForeignKey(Lieu, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.nom
 
 
 class PrixProduit(models.Model):
