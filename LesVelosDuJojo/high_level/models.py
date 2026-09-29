@@ -17,6 +17,9 @@ class Operation(models.Model):
     def __str__(self):
         return self.nom
 
+    def costs(self):
+        return self.cout
+
 
 class Produit(models.Model):
     nom = models.CharField(max_length=100)
@@ -30,15 +33,24 @@ class Produit(models.Model):
     def __str__(self):
         return self.nom
 
+    def costs(self):
+        return self.prix_de_vente
+
 
 class QuantiteProduit(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.PROTECT)
     nombre = models.IntegerField()
 
+    def costs(self):
+        return self.produit.costs() * self.nombre
+
 
 class Stock(models.Model):
     quantite_produits = models.ManyToManyField(QuantiteProduit)
     palettes_max = models.IntegerField()
+
+    def costs(self):
+        return self.cout
 
 
 class PointDeVente(models.Model):
@@ -91,6 +103,9 @@ class Machine(models.Model):
     def __str__(self):
         return self.nom
 
+    def costs(self):
+        return self.cout
+
 
 class QuantiteMachine(models.Model):
     machine = models.ForeignKey(Machine, on_delete=models.PROTECT)
@@ -107,6 +122,12 @@ class Lieu(models.Model):
     def __str__(self):
         return self.nom
 
+    def costs(self):
+        return (
+            self.ville.prix_m2 * self.superficie
+            + self.consomation_electrique * self.ville.pays.tarif_electrique
+        )
+
 
 class Transport(models.Model):
     nom = models.CharField(max_length=100, default="transport")
@@ -118,6 +139,9 @@ class Transport(models.Model):
 
     def __str__(self):
         return self.nom
+
+    def costs(self):
+        return self.cout
 
 
 class PrixProduit(models.Model):
