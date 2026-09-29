@@ -18,7 +18,17 @@ class Operation(models.Model):
         return self.nom
 
     def costs(self):
-        return self.cout
+        return (
+            self.cout
+            + self.heures_de_travail
+            * self.machine.quantite_machine_set.first()
+            .lieu_set.first()
+            .ville.pays.salaire_minimum
+            + self.consomation_electrique
+            * self.machine.quantite_machine_set.first()
+            .lieu_set.first()
+            .ville.pays.tarif_electrique
+        )
 
 
 class Produit(models.Model):
@@ -34,7 +44,13 @@ class Produit(models.Model):
         return self.nom
 
     def costs(self):
-        return self.prix_de_vente
+        s = 0
+        operation = self.operations
+        while operation.operation_suivante:
+            s = s + operation.costs
+            operation = operation.operation_suivante
+
+        return s
 
 
 class QuantiteProduit(models.Model):
