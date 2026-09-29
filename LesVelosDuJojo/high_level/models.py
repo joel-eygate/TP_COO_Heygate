@@ -4,9 +4,8 @@ from django.db import models
 
 
 class Operation(models.Model):
-
     nom = models.CharField(max_length=100)
-    operation_suivante = models.ForeignKey("self",blank=True, on_delete=models.PROTECT)
+    operation_suivante = models.ForeignKey("self", blank=True, on_delete=models.PROTECT)
     cout = models.IntegerField()
     machine = models.ForeignKey("Machine", on_delete=models.PROTECT)
     quantite_produits = models.ManyToManyField("QuantiteProduit")
@@ -22,7 +21,7 @@ class Produit(models.Model):
     prix_de_vente = models.IntegerField()
     duree_de_vie = models.IntegerField()
     nombre_par_palette = models.IntegerField()
-    operations = models.ForeignKey(Operation,blank=True, on_delete=models.PROTECT)
+    operations = models.ForeignKey(Operation, blank=True, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.nom
