@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Operation(models.Model):
     nom = models.CharField(max_length=100)
@@ -21,11 +19,11 @@ class Operation(models.Model):
         return (
             self.cout
             + self.heures_de_travail
-            * self.machine.quantite_machine_set.first()
+            * self.machine.quantitemachine_set.first()
             .lieu_set.first()
             .ville.pays.salaire_minimum
-            + self.consomation_electrique
-            * self.machine.quantite_machine_set.first()
+            + self.consommation_electrique
+            * self.machine.quantitemachine_set.first()
             .lieu_set.first()
             .ville.pays.tarif_electrique
         )
@@ -120,7 +118,7 @@ class Machine(models.Model):
         return self.nom
 
     def costs(self):
-        return self.cout
+        return self.prix
 
 
 class QuantiteMachine(models.Model):
