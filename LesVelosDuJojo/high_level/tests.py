@@ -14,7 +14,7 @@ class MachineModelTests(TestCase):
 class OperationModelTests(TestCase):
     def test_operation_creation(self):
         machine1 = models.Machine.objects.create(
-            nom="CNC", prix=28_000, duree_de_vie=1, cout_maintenance=1, superficie=1000
+            nom="CNC", prix=28000, duree_de_vie=1, cout_maintenance=1, superficie=1000
         )
         Produit1 = models.Produit.objects.create(
             nom="Velo",
@@ -39,9 +39,7 @@ class OperationModelTests(TestCase):
         Stock1.quantite_produits.add(Quantiteproduit1)
         Stock1.save()
         Lieu1 = models.Lieu.objects.create(
-            nom="Lieu1",
-            ville=Ville1,
-            superficie=1000,
+            nom="Lieu1", ville=Ville1, superficie=1000, consomation_electrique=10
         )
         Lieu1.quantite_machine.add(QuantiteMachine1)
         Lieu1.save()
@@ -63,7 +61,7 @@ class OperationModelTests(TestCase):
         )
         OP1.quantite_produits.add(Quantiteproduit1)
         OP1.save()
-        self.assertEqual(models.Operation.objects.first().costs(), 7040)
+        self.assertEqual(models.Operation.objects.first().costs(), 30)
 
 
 class StockModelTests(TestCase):
