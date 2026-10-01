@@ -17,7 +17,68 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from high_level import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path(
+        "Operation/<int:pk>",
+        views.OperationDetailView.as_view(),
+        name="Operation",
+    ),
+    path(
+        "Produit/<int:pk>",
+        views.QuantiteProduitDetailView.as_view(),
+        name="Produit",
+    ),
+    path(
+        "Fournisseur/<int:pk>",
+        views.FournisseurDetailView.as_view(),
+        name="Fournisseur",
+    ),
+    path(
+        "Stock/<int:pk>",
+        views.StockDetailView.as_view(),
+        name="Stock",
+    ),
+    path(
+        "PointDeVente/<int:pk>",
+        views.PointDeVenteDetailView.as_view(),
+        name="PointDeVente",
+    ),
+    path(
+        "Facture/<int:pk>",
+        views.FactureDetailView.as_view(),
+        name="Facture",
+    ),
+    path(
+        "Pays/<int:pk>",
+        views.PaysDetailView.as_view(),
+        name="Pays",
+    ),
+    path(
+        "Ville/<int:pk>",
+        views.VilleDetailView.as_view(),
+        name="Ville",
+    ),
+    path(
+        "Machine/<int:pk>",
+        views.MachineDetailView.as_view(),
+        name="Machine",
+    ),
+    path(
+        "QuantiteMachine/<int:pk>",
+        views.QuantiteMachineDetailView.as_view(),
+        name="QuantiteMachine",
+    ),
+    path(
+        "Transport/<int:pk>",
+        views.TransportDetailView.as_view(),
+        name="Transport",
+    ),
+    path(
+        "PrixProduit/<int:pk>",
+        views.PrixProduitDetailView.as_view(),
+        name="PrixProduit",
+    ),
 ]
